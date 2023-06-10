@@ -5,7 +5,6 @@ Email: sebastianchetroni@gmail.com
 
 """
 
-
 from guizero import *
 
 from consts import *
@@ -36,9 +35,9 @@ def levelClicked(x, y):
 def makeLevel(lvl, levelWindow):
     global currentColor
 
-    def pixelClicked(x, y):
-        print("[DEBUG]:: ~ Player clicked playableWaffle on ({},{})".format(x, y))
-        playableWaffle.set_pixel(x, y, currentColor)
+    def pixelClicked(event):
+        print("[DEBUG]:: ~ Player clicked playableWaffle on ({},{})".format(event.x//20, event.y//20))
+        playableWaffle.set_pixel(event.x//20, event.y//20, currentColor)
 
     def changeColor(x, y):
         global currentColor
@@ -46,6 +45,15 @@ def makeLevel(lvl, levelWindow):
 
         print("[DEBUG]:: ~ Successfully changed color to " + colorPalette._waffle_pixels[x, y].color)
         # print("[DEBUG]:: ~ Successfully changed color")
+
+    def checkLevel():
+        ready = True
+        for x in range(rows):
+            for y in range(cols):
+                if playableWaffle.get_pixel(x, y) == levelWaffle.get_pixel(x, y): continue
+                ready = False
+        if ready: None
+
 
     if lvl == 1:
         import level.lvl1 as level
@@ -56,7 +64,8 @@ def makeLevel(lvl, levelWindow):
 
     print("[DEBUG]:: ~ Successfully imported level.lvl{}".format(lvl))
 
-    levelWindow.resize(340, 750)
+    levelWindow.resize(340, 780)
+    levelWindow.when_resized = lambda: levelWindow.resize(340, 780)
     levelWindow.bg = woody
     Text(levelWindow, "", size=10)
     levelWaffle = Waffle(levelWindow, rows, cols, dotty=False, color=white, command=lambda x, y: None, dim=20, pad=0)
@@ -68,15 +77,16 @@ def makeLevel(lvl, levelWindow):
         for x in range(cols):
             levelWaffle.set_pixel(x, y, level.matrix[y][x])
 
-    playableWaffle = Waffle(levelWindow, rows, cols, dotty=False, color=white, command=pixelClicked, dim=20, pad=0)
+    playableWaffle = Waffle(levelWindow, rows, cols, dotty=False, color=white, dim=20, pad=0)
+    playableWaffle.when_mouse_dragged = pixelClicked
     Text(levelWindow, "", size=10)
     print("[DEBUG]:: ~ Successfully created playableWaffle")
 
     colorPalette = Waffle(levelWindow, 1, 10, dotty=True, command=changeColor, dim=20, pad=10)
     print("[DEBUG]:: ~ Successfully created colorPalette")
 
-    for y in range(10):
-        colorPalette.set_pixel(y, 0, [n, k, g, w, d, b, l, r, o, g][y])
+    for i in range(10):
+        colorPalette.set_pixel(i, 0, [n, k, t, w, d, b, l, r, o, g][i])
 
 
 if __name__ == '__main__':
