@@ -10,7 +10,7 @@ guizero version used: 1.4.0
 
 * <big><big>How do I install guizero?</big></big>
 <blockquote>
-You can simply install guizero by typing in the terminal <code>pip install guizero</code> or
+You can simply install guizero by typing in the terminal <code>pip install guizero</code>.
 </blockquote>
 <br>
 
@@ -22,4 +22,4 @@ Tap on a pixel of the bottom Waffle to paint. Press the CHECK button to finish t
 
 Comment!
 
-<span style="align: left;">from [sebastianzcoder]()</span>
+from [sebastianzcoder](https://github.com/sebastianzcoder/)
