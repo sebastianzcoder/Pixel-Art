@@ -5,12 +5,12 @@ Email: sebastianchetroni@gmail.com
 
 """
 
+from time import sleep
+
 from guizero import *
 from guizero.dialog import *
 
 from consts import *
-
-from time import sleep
 
 currentColor = red
 
@@ -38,14 +38,14 @@ def levelClicked(x, y):
 def makeLevel(lvl, levelWindow):
     global currentColor
 
-    def pixelClicked(event):
-        print("[DEBUG]:: ~ Player clicked playableWaffle on ({},{})".format(event.x//20, event.y//20))
-        if playableWaffle.get_pixel(event.x//20, event.y//20) == currentColor:
-            playableWaffle.set_pixel(event.x//20, event.y//20, white)
-            sleep(.1)
-            return
+    def pixelClicked(x, y):
+        print("[DEBUG]:: ~ Player clicked playableWaffle on ({},{})".format(x, y))
+        # if playableWaffle.get_pixel(event.x//20, event.y//20) == currentColor:
+        #     playableWaffle.set_pixel(event.x//20, event.y//20, white)
+        #     sleep(.1)
+        #     return
         sleep(.1)
-        playableWaffle.set_pixel(event.x//20, event.y//20, currentColor)
+        playableWaffle.set_pixel(x, y, currentColor)
 
     def changeColor(x, y):
         global currentColor
@@ -66,8 +66,6 @@ def makeLevel(lvl, levelWindow):
         else:
             if yesno("Not finished", "You didn't finished your level! Exit?"):
                 levelWindow.destroy()
-
-
 
     if lvl == 1:
         import level.lvl1 as level
@@ -90,8 +88,9 @@ def makeLevel(lvl, levelWindow):
         for x in range(cols):
             levelWaffle.set_pixel(x, y, level.matrix[y][x])
 
-    playableWaffle = Waffle(levelWindow, rows, cols, dotty=False, color=white, dim=20, pad=0)
-    playableWaffle.when_mouse_dragged = pixelClicked
+    playableWaffle = Waffle(levelWindow, command=pixelClicked, height=rows, width=cols, dotty=False, color=white,
+                            dim=20, pad=0)
+    # playableWaffle.when_mouse_dragged = pixelClicked
     Text(levelWindow, "", size=10)
     print("[DEBUG]:: ~ Successfully created playableWaffle")
 
@@ -108,7 +107,7 @@ def makeLevel(lvl, levelWindow):
 
 if __name__ == '__main__':
     root = App("Pixel Art", 460, 500, bg=bluey)
-    # root.icon = "./PixelArt.ico"
+    # root.icon = "./PixelArt.gif"
 
     lvl = None
     boox = Box(root, height=60, width=400)
