@@ -6,8 +6,11 @@ Email: sebastianchetroni@gmail.com
 """
 
 from guizero import *
+from guizero.dialog import *
 
 from consts import *
+
+from time import sleep
 
 currentColor = red
 
@@ -37,6 +40,11 @@ def makeLevel(lvl, levelWindow):
 
     def pixelClicked(event):
         print("[DEBUG]:: ~ Player clicked playableWaffle on ({},{})".format(event.x//20, event.y//20))
+        if playableWaffle.get_pixel(event.x//20, event.y//20) == currentColor:
+            playableWaffle.set_pixel(event.x//20, event.y//20, white)
+            sleep(.1)
+            return
+        sleep(.1)
         playableWaffle.set_pixel(event.x//20, event.y//20, currentColor)
 
     def changeColor(x, y):
@@ -52,7 +60,13 @@ def makeLevel(lvl, levelWindow):
             for y in range(cols):
                 if playableWaffle.get_pixel(x, y) == levelWaffle.get_pixel(x, y): continue
                 ready = False
-        if ready: None
+        if ready:
+            info("Level finished", "Well done!", levelWindow)
+            levelWindow.destroy()
+        else:
+            if yesno("Not finished", "You didn't finished your level! Exit?"):
+                levelWindow.destroy()
+
 
 
     if lvl == 1:
@@ -64,8 +78,7 @@ def makeLevel(lvl, levelWindow):
 
     print("[DEBUG]:: ~ Successfully imported level.lvl{}".format(lvl))
 
-    levelWindow.resize(340, 780)
-    levelWindow.when_resized = lambda: levelWindow.resize(340, 780)
+    levelWindow.resize(340, 820)
     levelWindow.bg = woody
     Text(levelWindow, "", size=10)
     levelWaffle = Waffle(levelWindow, rows, cols, dotty=False, color=white, command=lambda x, y: None, dim=20, pad=0)
@@ -87,6 +100,10 @@ def makeLevel(lvl, levelWindow):
 
     for i in range(10):
         colorPalette.set_pixel(i, 0, [n, k, t, w, d, b, l, r, o, g][i])
+
+    checkButton = PushButton(levelWindow, command=checkLevel, text="CHECK", pady=0, padx=10)
+    checkButton.bg = woody
+    checkButton.text_color = bluey
 
 
 if __name__ == '__main__':
