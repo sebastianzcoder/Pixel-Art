@@ -16,10 +16,15 @@ You can simply install guizero by typing in the terminal <code>pip install guize
 
 * <big><big>How does it work?</big></big>
 <blockquote>
-After you press the Run button, tap on a circle to get a level to complete. Next, select a color from the palette.
+After you press the Run button, tap on a circle to get a level to complete.
+![Home-screenshot](./Home-screenshot.jpg)
+Next, select a color from the palette.
 Tap on a pixel of the bottom Waffle to paint. Press the CHECK button to finish the level.
 </blockquote>
 
-Comment!
+![Home-screenshot](./Home-screenshot.jpg)
+![Level-screenshot](./Level-screenshot.jpg)
 
-from [sebastianzcoder](https://github.com/sebastianzcoder/)
+***Also visit my website, [ZCoder.ro](https://zcoder.ro/)***
+
+*from [sebastianzcoder](https://github.com/sebastianzcoder/)*
